@@ -54,6 +54,7 @@ const initialBundleResourceTypes: readonly SupportedFhirResourceType[] = [
   "Patient",
   "Observation",
   "Encounter",
+  "Medication",
 ];
 
 const workflowTemplates = [
@@ -70,7 +71,7 @@ const workflowTemplates = [
   {
     id: "meds",
     label: "Medication order",
-    resources: ["Patient", "Encounter", "MedicationRequest", "MedicationStatement"] as const,
+    resources: ["Patient", "Encounter", "Medication", "MedicationRequest", "MedicationStatement"] as const,
   },
   {
     id: "referral",
