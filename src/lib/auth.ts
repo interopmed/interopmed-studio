@@ -8,6 +8,7 @@ const DEFAULT_SHARED_SECRET = "interopmed-studio-dev-secret";
 type StudioLaunchPayload = {
   exp: number;
   returnTo: string;
+  websiteUrl?: string;
 };
 
 function toBase64Url(value: string): string {
@@ -53,13 +54,33 @@ export function getSafeStudioReturnPath(
   return value;
 }
 
+export function getSafeWebsiteUrl(value: string | undefined): string {
+  if (typeof value !== "string") {
+    return getInteropmedWebsiteUrl();
+  }
+
+  try {
+    const url = new URL(value);
+
+    if (url.protocol !== "http:" && url.protocol !== "https:") {
+      return getInteropmedWebsiteUrl();
+    }
+
+    return url.toString().replace(/\/$/, "");
+  } catch {
+    return getInteropmedWebsiteUrl();
+  }
+}
+
 export function createStudioSessionToken(
   returnTo: string,
+  websiteUrl?: string,
   maxAgeSeconds = 60 * 60 * 8,
 ): string {
   const payload: StudioLaunchPayload = {
     exp: Math.floor(Date.now() / 1000) + maxAgeSeconds,
     returnTo,
+    websiteUrl: getSafeWebsiteUrl(websiteUrl),
   };
   const encodedPayload = toBase64Url(JSON.stringify(payload));
   const signature = createSignature(encodedPayload);
@@ -94,6 +115,10 @@ export function readStudioToken(
       return null;
     }
 
+    if (payload.websiteUrl !== undefined) {
+      payload.websiteUrl = getSafeWebsiteUrl(payload.websiteUrl);
+    }
+
     if (payload.exp < Math.floor(Date.now() / 1000)) {
       return null;
     }
@@ -106,4 +131,8 @@ export function readStudioToken(
 
 export function isValidStudioSession(value: string | undefined): boolean {
   return readStudioToken(value ?? "") !== null;
+}
+
+export function getStudioSession(value: string | undefined): StudioLaunchPayload | null {
+  return readStudioToken(value ?? "");
 }

@@ -3,8 +3,8 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import {
+  getStudioSession,
   getInteropmedWebsiteUrl,
-  isValidStudioSession,
   STUDIO_SESSION_COOKIE,
 } from "@/lib/auth";
 import "./globals.css";
@@ -23,10 +23,13 @@ export default async function RootLayout({
 }>) {
   const cookieStore = await cookies();
   const session = cookieStore.get(STUDIO_SESSION_COOKIE)?.value;
+  const studioSession = getStudioSession(session);
 
-  if (!isValidStudioSession(session)) {
+  if (!studioSession) {
     redirect(`${getInteropmedWebsiteUrl()}/studio`);
   }
+
+  const websiteUrl = studioSession.websiteUrl ?? getInteropmedWebsiteUrl();
 
   return (
     <html lang="en" className="h-full antialiased">
@@ -38,10 +41,10 @@ export default async function RootLayout({
               <span className="text-slate-400">Managed by InteropMed account access</span>
             </div>
             <div className="flex items-center gap-4">
-              <Link className="text-slate-300 hover:text-white" href={getInteropmedWebsiteUrl()}>
+              <Link className="text-slate-300 hover:text-white" href={websiteUrl}>
                 Website
               </Link>
-              <Link className="text-slate-300 hover:text-white" href={`${getInteropmedWebsiteUrl()}/account`}>
+              <Link className="text-slate-300 hover:text-white" href={`${websiteUrl}/account`}>
                 Account
               </Link>
               <Link className="text-slate-300 hover:text-white" href="/auth/logout">

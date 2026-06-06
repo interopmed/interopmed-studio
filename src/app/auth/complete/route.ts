@@ -7,6 +7,11 @@ import {
   STUDIO_SESSION_COOKIE,
 } from "@/lib/auth";
 
+function getRequestOrigin(request: NextRequest): string {
+  const host = request.headers.get("host") ?? request.nextUrl.host;
+  return `${request.nextUrl.protocol}//${host}`;
+}
+
 export async function GET(request: NextRequest) {
   const token = request.nextUrl.searchParams.get("token");
   const requestedReturnTo = getSafeStudioReturnPath(
@@ -28,9 +33,9 @@ export async function GET(request: NextRequest) {
   }
 
   const returnTo = getSafeStudioReturnPath(payload.returnTo, requestedReturnTo);
-  const response = NextResponse.redirect(new URL(returnTo, request.nextUrl.origin));
+  const response = NextResponse.redirect(new URL(returnTo, getRequestOrigin(request)));
 
-  response.cookies.set(STUDIO_SESSION_COOKIE, createStudioSessionToken(returnTo), {
+  response.cookies.set(STUDIO_SESSION_COOKIE, createStudioSessionToken(returnTo, payload.websiteUrl), {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
