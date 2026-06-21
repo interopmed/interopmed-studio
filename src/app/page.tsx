@@ -30,7 +30,7 @@ import {
   getResourceModule,
   isFhirR4ResourceType,
   resourceModules,
-} from "interopmed-core";
+} from "@interopmed/transform-engine";
 
 const codegenTargets: readonly CodegenTarget[] = ["typescript", "python", "node"];
 const fhirVersions: readonly FhirVersion[] = ["R4", "R5-preview"];
