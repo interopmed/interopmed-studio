@@ -10,7 +10,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@interopmed/transform-engine": "1.0.0",
+    "@interopmed/transform-engine": "file:./packages/transform-engine",
     "lucide-react": "^1.16.0",
     "next": "^15.2.0",
     "react": "19.2.4",
