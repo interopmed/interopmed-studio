@@ -1,0 +1,36 @@
+# dependencies
+node_modules/
+.pnp/
+.pnp.*
+
+# build and package output
+dist/
+build/
+coverage/
+*.tgz
+
+# test output
+test-results/
+playwright-report/
+
+# caches
+.cache/
+.eslintcache
+*.tsbuildinfo
+
+# environment and local config
+.env
+.env.*
+!.env.example
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

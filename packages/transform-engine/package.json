@@ -1,0 +1,17 @@
+{
+  "name": "@interopmed/transform-engine",
+  "version": "1.0.0",
+  "description": "Dependency-free FHIR R4 and HL7 transformation, validation, and code generation primitives",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": ["fhir", "hl7", "interoperability", "healthcare", "etl"],
+  "author": "",
+  "license": "MIT"
+}
