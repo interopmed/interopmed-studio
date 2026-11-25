@@ -520,16 +520,36 @@ export default function StudioWorkspace() {
   return (
     <main className="min-h-screen bg-zinc-50 text-slate-950">
       <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-[1760px] flex-wrap items-center justify-between gap-4 px-5 py-4">
-          <div>
-            <h1 className="text-xl font-semibold">InteropMed Studio</h1>
-            <p className="text-sm text-slate-600">
-              Advanced in-browser mapping to FHIR R4 resources.
-            </p>
+        <div className="mx-auto flex max-w-[1760px] flex-wrap items-center justify-between gap-4 px-5 py-3">
+          <div className="flex items-center gap-4">
+            <a
+              href="https://www.interopmed.com"
+              className="text-xs font-semibold text-slate-500 hover:text-teal-700 transition"
+            >
+              ← InteropMed Hub
+            </a>
+            <span className="text-slate-300">|</span>
+            <div>
+              <h1 className="text-lg font-bold text-slate-950">InteropMed Studio</h1>
+              <p className="text-xs text-slate-500">
+                Visual HL7 v2 &amp; JSON to FHIR R4 mapping &amp; code generator.
+              </p>
+            </div>
           </div>
-          <div className="flex items-center gap-2 border border-teal-200 bg-teal-50 px-3 py-2 text-sm font-medium text-teal-900">
-            <ShieldCheck className="h-4 w-4" aria-hidden="true" />
-            Stateless execution
+          <div className="flex items-center gap-3">
+            <a
+              href="https://shin.interopmed.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 rounded-lg border border-teal-300 bg-teal-50 px-3 py-1.5 text-xs font-bold text-teal-900 transition hover:bg-teal-100 shadow-sm"
+            >
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              Simulate in SHIN EHR &amp; LIS ↗
+            </a>
+            <div className="flex items-center gap-1.5 border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700">
+              <ShieldCheck className="h-4 w-4 text-emerald-600" aria-hidden="true" />
+              Zero PHI Stored
+            </div>
           </div>
         </div>
       </header>
