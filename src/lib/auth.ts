@@ -2,7 +2,6 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 
 export const STUDIO_SESSION_COOKIE = "interopmed_studio_session";
 
-const DEFAULT_WEBSITE_URL = "http://127.0.0.1:3000";
 const DEFAULT_SHARED_SECRET = "interopmed-studio-dev-secret";
 
 type StudioLaunchPayload = {
@@ -30,13 +29,24 @@ export function getStudioSharedSecret(): string {
 }
 
 export function getInteropmedWebsiteUrl(): string {
-  const value = process.env.INTEROPMED_WEBSITE_URL?.trim() || DEFAULT_WEBSITE_URL;
+  const isProd = process.env.NODE_ENV === "production" || Boolean(process.env.VERCEL);
+  const defaultProd = "https://www.interopmed.com";
+  const defaultLocal = "http://127.0.0.1:3000";
+  const value = process.env.INTEROPMED_WEBSITE_URL?.trim();
 
-  try {
-    return new URL(value).toString().replace(/\/$/, "");
-  } catch {
-    return DEFAULT_WEBSITE_URL;
+  if (value) {
+    try {
+      const url = new URL(value);
+      if (isProd && (url.hostname === "127.0.0.1" || url.hostname === "localhost")) {
+        return defaultProd;
+      }
+      return url.toString().replace(/\/$/, "");
+    } catch {
+      return isProd ? defaultProd : defaultLocal;
+    }
   }
+
+  return isProd ? defaultProd : defaultLocal;
 }
 
 export function getSafeStudioReturnPath(
